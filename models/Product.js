@@ -11,6 +11,11 @@ class Product extends Model {}
 Product.init(
   {
     // define columns
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+    },
     product_name: {
       type: DataTypes.STRING,
       allowNull: false,
