@@ -64,8 +64,34 @@ router.put('/:id', (req, res) => {
   });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   // delete on tag by its `id` value
+  const tagId = parseInt(req.params.id, 10);
+
+  if (isNaN(tagId)) {
+    return res.status(400).json({ message: 'Invalid tag ID'});
+  }
+
+  try {
+  // const linkedProducts = await Product.findAll({ where: { category_id: categoryId } });
+
+  // if (linkedProducts.length > 0) {
+  //   await Product.destroy({ where: { category_id: categoryId } });
+  // }
+  
+  const deleted = await Tag.destroy({
+    where: { id: tagId }
+  });
+
+    if (deleted === 0) {
+      return res.status(404).json({ message: 'Tag not found'});
+    }
+
+    res.status(200).json({ message: 'Tag deleted successfully'});
+  } catch (err) {
+      console.error('Error deleting tag:', err);
+      res.status(500).json({ message: 'Failed to delete tag', error: err.message});
+  }
 });
 
 module.exports = router;
