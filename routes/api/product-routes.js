@@ -21,12 +21,16 @@ router.get('/:id', async (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
   try {
+    //finds id
     const productId = parseInt(req.params.id, 10);
+    //findOne where the id param is the productId
     const product = await Product.findOne({
       where: { id: productId },
     });
+    //returns product if okay
     res.status(200).json(product);
   } catch (error) {
+    //gives 500 error if it can't find the product
     console.error(error);
     res.status(500).json({ message: 'Failed to find product'});
   }
@@ -111,23 +115,26 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   // delete one product by its `id` value
+  //finds productId
   const productId = parseInt(req.params.id, 10);
-
+  //if product id isn't a number, error
   if (isNaN(productId)) {
     return res.status(400).json({ message: 'Invalid product ID'});
   }
 
   try {
+    //variable for items to delete
     const deleted = await Product.destroy({
       where: { id: productId }
     });
-
+    //if the item doesn't exist, error
     if (deleted === 0) {
       return res.status(404).json({ message: 'Product not found'});
     }
-
+    //if it does exist, delete
     res.status(200).json({ message: 'Product deleted successfully'});
   } catch (err) {
+    //errors if it can't delete
     console.error('Error deleting product:', err);
     res.status(500).json({ message: 'Failed to delete product', error: err.message});
   }
