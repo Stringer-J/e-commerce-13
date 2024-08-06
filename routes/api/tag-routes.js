@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
   // find all tags
   // be sure to include its associated Product data
   try {
-    const tags = await Tag.findAll({ include: Product });
+    const tags = await Tag.findAll();
     res.status(200).json(tags);
   } catch (error) {
     console.error(error);
@@ -22,7 +22,6 @@ router.get('/:id', async (req, res) => {
     const tagId = parseInt(req.params.id, 10);
     const tag = await Tag.findOne({
       where: { id: tagId },
-      include: [{ model: Product }]
     });
     res.status(200).json(tag);
   } catch (error) {
@@ -72,13 +71,7 @@ router.delete('/:id', async (req, res) => {
     return res.status(400).json({ message: 'Invalid tag ID'});
   }
 
-  try {
-  // const linkedProducts = await Product.findAll({ where: { category_id: categoryId } });
-
-  // if (linkedProducts.length > 0) {
-  //   await Product.destroy({ where: { category_id: categoryId } });
-  // }
-  
+  try { 
   const deleted = await Tag.destroy({
     where: { id: tagId }
   });
