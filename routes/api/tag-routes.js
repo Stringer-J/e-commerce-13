@@ -45,6 +45,23 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', (req, res) => {
   // update a tag's name by its `id` value
+  const tagId = parseInt(req.params.id, 10);
+  const { tag_name } = req.body;
+
+  Tag.update({ tag_name }, { where: { id: tagId } })
+  .then(([rowsUpdated]) => {
+    if (rowsUpdated === 0) {
+      return res.status(404).json({ message: 'Tag not found'});
+    }
+    return Tag.findByPk(tagId);
+  })
+  .then((updatedTag) => {
+    res.status(200).json(updatedTag);
+  })
+  .catch((err) => {
+    console.error('Error updating tag:', err);
+    res.status(500).json({ message: 'Failed to update tag', error: err.message });
+  });
 });
 
 router.delete('/:id', (req, res) => {
