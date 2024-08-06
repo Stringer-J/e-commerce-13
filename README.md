@@ -10,6 +10,7 @@ Credits: Josh Stringer
 
 License: Refer to the LICENSE in the repo.
 
-Link to demo video:
+Link to demo video: https://drive.google.com/file/d/1s12bNwoZ76do3G_2Mge5Jm6JK9lfjFzu/view
+Note: Video has few missteps included, but due to internet problems I had at the time of recording, I left them in.
 
 ![insomnia](image.png)
